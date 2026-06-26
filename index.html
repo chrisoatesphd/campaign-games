@@ -1,21 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chris Oates Campaign Games</title>
+  <style>
+    :root {
+      --navy: #173a66;
+      --blue: #2f6fbe;
+      --sky: #dff1ff;
+      --cream: #fff7df;
+      --gold: #f1c75b;
+      --green: #4fa96b;
+      --ink: #132238;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.95), transparent 34%),
+        linear-gradient(180deg, var(--sky) 0%, #eef8ff 48%, #d7ebfb 100%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 54px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border: 4px solid #10233d;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(23, 58, 102, .22);
+      padding: 34px;
+      margin-bottom: 28px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -130px;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.09);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #d8ebff;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: .98;
+      letter-spacing: -.03em;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 18px 0 0;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.55;
+      color: #eaf4ff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .game-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 390px;
+      overflow: hidden;
+      background: rgba(255,255,255,.94);
+      border: 3px solid #172942;
+      border-radius: 22px;
+      box-shadow: 0 14px 30px rgba(26, 61, 100, .16);
+    }
+
+    .art {
+      position: relative;
+      min-height: 190px;
+      overflow: hidden;
+      border-bottom: 3px solid #172942;
+    }
+
+    .art.bill {
+      background: linear-gradient(180deg, #8bd1ff 0 62%, #79bf78 62% 100%);
+    }
+
+    .art.road {
+      background: linear-gradient(180deg, #83cfff 0 50%, #9fd995 50% 100%);
+    }
+
+    .state-house {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      width: 180px;
+      height: 84px;
+      transform: translateX(-50%);
+      background: #eee3bd;
+      border: 3px solid #172942;
+    }
+
+    .state-house::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -56px;
+      width: 92px;
+      height: 56px;
+      transform: translateX(-50%);
+      background: var(--gold);
+      border: 3px solid #172942;
+      border-bottom: 0;
+      border-radius: 90px 90px 0 0;
+    }
+
+    .roadway {
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 76%;
+      height: 150px;
+      transform: translateX(-50%);
+      clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+      background: #666b73;
+      border-top: 3px solid #172942;
+    }
+
+    .car {
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      width: 84px;
+      height: 42px;
+      transform: translateX(-50%);
+      background: #4a8ddd;
+      border: 3px solid #172942;
+      border-radius: 10px 10px 6px 6px;
+    }
+
+    .car::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: -20px;
+      height: 22px;
+      background: #bfe4ff;
+      border: 3px solid #172942;
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 22px;
+    }
+
+    .tag {
+      align-self: flex-start;
+      margin-bottom: 10px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #e7f1ff;
+      color: var(--navy);
+      font-size: .76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1.15;
+    }
+
+    .card-body p {
+      margin: 12px 0 20px;
+      line-height: 1.55;
+      color: #44536a;
+    }
+
+    .play-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: auto;
+      min-height: 52px;
+      padding: 13px 18px;
+      border: 3px solid #15253c;
+      border-radius: 12px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      box-shadow: 5px 5px 0 #15253c;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .play-button:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0 #15253c;
+    }
+
+    .footer {
+      margin-top: 28px;
+      text-align: center;
+      color: #53667e;
+      font-size: .9rem;
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 18px, 1180px); padding-top: 12px; }
+      .hero { padding: 24px 20px; border-radius: 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .game-card { min-height: 0; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Campaign Games</h1>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Chris Oates Campaign Games</p>
+      <h1>Politics, potholes, and Beacon Hill—now playable.</h1>
+      <p>Choose a game below. Each one opens in its own page and is designed to work on desktop and mobile.</p>
+    </section>
 
-  <p>
-    <a href="/beacon-bill-run/">Play Beacon Bill Run</a>
-  </p>
+    <section class="grid" aria-label="Campaign games">
+      <article class="game-card">
+        <div class="art bill" aria-hidden="true">
+          <div class="state-house"></div>
+        </div>
+        <div class="card-body">
+          <span class="tag">Legislative platformer</span>
+          <h2>Beacon Bill Run</h2>
+          <p>Build a coalition, survive committee, collect votes, and guide a bill all the way through Beacon Hill.</p>
+          <a class="play-button" href="./beacon-bill-run/index.html">Play Beacon Bill Run</a>
+        </div>
+      </article>
 
-  <p>
-    <a href="/34th-middlesex-dodge-ems/">
-      Play 34th Middlesex Dodge Ems
-    </a>
-  </p>
+      <article class="game-card">
+        <div class="art road" aria-hidden="true">
+          <div class="roadway"></div>
+          <div class="car"></div>
+        </div>
+        <div class="card-body">
+          <span class="tag">Arcade road game</span>
+          <h2>34th Middlesex Dodge Ems</h2>
+          <p>Choose a bike, car, or MBTA bus and dodge traffic, potholes, and buses across four local road levels.</p>
+          <a class="play-button" href="./34th-middlesex-dodge-ems/index.html">Play 34th Middlesex Dodge Ems</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="footer">Hosted as a static site. No downloads are required to play.</p>
+  </main>
 </body>
 </html>
